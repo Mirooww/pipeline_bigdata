@@ -7,10 +7,8 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - pg-data:/var/lib/postgres
+      - postgres_data:/var/lib/postgres
     restart: unless-stopped
-    depends_on:
-      - qdrant
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -100,7 +98,7 @@ services:
       - ${SPARK_2_PORT}:${SPARK_2_PORT}
     volumes:
       - ./spark_jobs:/opt/spark/jobs
-      -
+
   spark-worker:
     image: apache/spark:3.5.1-python3
     container_name: spark-worker
@@ -112,7 +110,7 @@ services:
       spark://spark-master:7077
     volumes:
       - ./spark_jobs:/opt/spark/jobs
-      -
+
   mongodb:
     image: mongo:6
     container_name: mongodb
