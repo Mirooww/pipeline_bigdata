@@ -125,7 +125,10 @@ services:
     ports:
       - ${PROMOTHEUS_PORT}:${PROMOTHEUS_PORT}
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
 
   grafana:
     image: grafana/grafana:10.2.3
